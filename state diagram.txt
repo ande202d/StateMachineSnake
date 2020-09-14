@@ -1,0 +1,24 @@
+state north
+state west
+state east
+state south
+
+input a
+input d
+input w
+
+state north input a = state west
+state north input d = state east
+state north input w = state north
+
+state east input a = state north
+state east input d = state south
+state east input w = state east
+
+state south input a = state east
+state south input d = state west
+state south input w = state south
+
+state west input a = state south
+state west input d = state north
+state west input w = state west
