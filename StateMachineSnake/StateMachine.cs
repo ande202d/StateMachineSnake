@@ -52,5 +52,10 @@ namespace StateMachineSnake
             SetState(_state, i);
             return _state;
         }
+
+        public void ResetState()
+        {
+            _state = State.North;
+        }
     }
 }
