@@ -34,7 +34,7 @@ namespace StateMachineSnake
             playground = new int[playgroundHeight, playgroundWidth];
             snakeTailPositions = new List<int[]>();
             snakeLenght = 1;
-            numberOfFood = 3;
+            numberOfFood = 10;
             food = new List<int[]>();
         }
 
@@ -83,14 +83,21 @@ namespace StateMachineSnake
             else if (direction == StateMachine.State.West) snakePosition[1] -= 1;
             else if (direction == StateMachine.State.East) snakePosition[1] += 1;
 
-            if (snakePosition[0] < 0 || snakePosition[0] > playgroundHeight-1 || snakePosition[1] < 0 || snakePosition[1] > playgroundWidth-1)
+            if (snakePosition[0] < 0 || snakePosition[0] > playgroundHeight - 1 || snakePosition[1] < 0 || snakePosition[1] > playgroundWidth - 1)
             {
                 //
                 //checks if the new location is out of bounds, and kills you
                 //
                 Console.WriteLine("YOU DIED - OUT OF BOUNDS");
-                Console.WriteLine("PRESS KEY TO RETURN TO MAIN MENU");
-                Console.ReadKey(true);
+                Console.WriteLine("PRESS \"R\" TO RETURN TO MAIN MENU");
+                while (true)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.R)
+                    {
+                        break;
+                    }
+                }
                 playing = false;
             }
             else if (snakeTailPositions.Exists(x => x.SequenceEqual(snakePosition)))
@@ -99,8 +106,15 @@ namespace StateMachineSnake
                 //checks if you hit your own body
                 //
                 Console.WriteLine("YOU DIED - TRIED TO EAT YOURSELF");
-                Console.WriteLine("PRESS KEY TO RETURN TO MAIN MENU");
-                Console.ReadKey(true);
+                Console.WriteLine("PRESS \"R\" TO RETURN TO MAIN MENU");
+                while (true)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.R)
+                    {
+                        break;
+                    }
+                }
                 playing = false;
             }
 
@@ -121,9 +135,13 @@ namespace StateMachineSnake
         private void DrawPlayground()
         {
             Console.Clear();
+            string borderChar = "X";
+            string topAndBottomBorder = String.Concat(Enumerable.Repeat(borderChar, playground.GetLength(1) * 2 + 2));
             Console.WriteLine($"SNAKE AT: [{snakePosition[0]} , {snakePosition[1]}] , LENGTH: {snakeLenght}");
+            Console.WriteLine(topAndBottomBorder);
             for (int i = 0; i < playground.GetLength(0); i++)
             {
+                Console.Write(borderChar);
                 for (int j = 0; j < playground.GetLength(1); j++)
                 {
                     int[] currentPosition = new[] {i, j};
@@ -139,11 +157,15 @@ namespace StateMachineSnake
                         Console.Write("O" + " ");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    else Console.Write("." + " ");
+                    else Console.Write(" " + " ");
                     //else Console.Write(playground[i, j] + " ");
                 }
+                Console.Write(borderChar);
                 Console.WriteLine();
             }
+            Console.WriteLine(topAndBottomBorder);
+
+            Console.WriteLine();
         }
 
 
